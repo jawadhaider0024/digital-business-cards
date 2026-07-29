@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= card && card.id ? 'Edit' : 'New' %> Card · <%= brand.name %> E-Cards</title>
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin.css?v=2" />
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span><small>E-Cards</small>
+    </div>
+    <div class="topbar-right">
+      <a class="btn ghost" href="/admin">← Back to dashboard</a>
+    </div>
+  </header>
+
+  <main class="container narrow">
+    <h1><%= card && card.id ? 'Edit Card' : 'Create New Card' %></h1>
+
+    <% if (errors && errors.length) { %>
+      <div class="alert error"><ul><% errors.forEach(function(e){ %><li><%= e %></li><% }); %></ul></div>
+    <% } %>
+
+    <form method="post" action="<%= card && card.id ? '/admin/cards/' + card.id : '/admin/cards' %>" class="form">
+      <label>Full name <span class="req">*</span>
+        <input type="text" name="full_name" value="<%= card ? (card.full_name || '') : '' %>" placeholder="Ahmed Saeed Bin Darwish" required autofocus />
+      </label>
+
+      <label>Job title
+        <input type="text" name="job_title" value="<%= card ? (card.job_title || '') : '' %>" placeholder="Chief Operations Director" />
+      </label>
+
+      <div class="grid2">
+        <label>Phone <small>(used for Call &amp; WhatsApp)</small>
+          <input type="text" name="phone" value="<%= card ? (card.phone || '') : '' %>" placeholder="+971501541633" />
+        </label>
+        <label>Email
+          <input type="email" name="email" value="<%= card ? (card.email || '') : '' %>" placeholder="name@example.com" />
+        </label>
+      </div>
+
+      <label>LinkedIn profile URL
+        <input type="text" name="linkedin_url" value="<%= card ? (card.linkedin_url || '') : '' %>" placeholder="linkedin.com/in/username" />
+      </label>
+
+      <div class="grid2">
+        <label>WeChat ID <small>(shown so people can add you)</small>
+          <input type="text" name="wechat" value="<%= card ? (card.wechat || '') : '' %>" placeholder="wechat-id" />
+        </label>
+        <label>Telegram <small>(username or link)</small>
+          <input type="text" name="telegram" value="<%= card ? (card.telegram || '') : '' %>" placeholder="@username" />
+        </label>
+      </div>
+
+      <div class="grid2">
+        <label>Website
+          <input type="text" name="website" value="<%= card ? (card.website || '') : brand.url %>" placeholder="<%= brand.url %>" />
+        </label>
+        <label>Location
+          <input type="text" name="location" value="<%= card ? (card.location || '') : 'Dubai, United Arab Emirates' %>" placeholder="Dubai, United Arab Emirates" />
+        </label>
+      </div>
+
+      <label>Link name (URL) <small>(optional — auto-generated from the name)</small>
+        <div class="slug-field">
+          <span class="slug-prefix"><%= base.replace(/^https?:\/\//,'') %>/</span>
+          <input type="text" name="slug" value="<%= card ? (card.slug || '') : '' %>" placeholder="ahmed-saeed" />
+        </div>
+      </label>
+
+      <div class="form-actions">
+        <a class="btn ghost" href="/admin">Cancel</a>
+        <button type="submit" class="btn primary"><%= card && card.id ? 'Save changes' : 'Create card' %></button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

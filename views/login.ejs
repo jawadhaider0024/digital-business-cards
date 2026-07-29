@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign in · <%= brand.name %> E-Cards</title>
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin.css?v=2" />
+</head>
+<body class="auth-page">
+  <main class="auth-card">
+    <div class="auth-brand">
+      <span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span>
+    </div>
+    <p class="auth-sub">E-Card Dashboard</p>
+
+    <% if (error) { %><div class="alert error"><%= error %></div><% } %>
+
+    <form method="post" action="/admin/login" autocomplete="off">
+      <label>Username
+        <input type="text" name="username" required autofocus />
+      </label>
+      <label>Password
+        <input type="password" name="password" required />
+      </label>
+      <button type="submit" class="btn primary full">Sign in</button>
+    </form>
+  </main>
+</body>
+</html>

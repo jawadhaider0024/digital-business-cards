@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><%= card.full_name %><%= card.job_title ? ' — ' + card.job_title : '' %> | <%= brand.name %></title>
+  <meta name="description" content="<%= card.full_name %><%= card.job_title ? ', ' + card.job_title : '' %> at <%= brand.name %> — tap to save the contact or get in touch." />
+
+  <!-- Open Graph (WhatsApp / social previews) -->
+  <meta property="og:type" content="profile" />
+  <meta property="og:site_name" content="<%= brand.name %>" />
+  <meta property="og:title" content="<%= card.full_name %><%= card.job_title ? ' — ' + card.job_title : '' %>" />
+  <meta property="og:description" content="<%= card.job_title ? card.job_title + ' · ' : '' %><%= brand.name %> digital business card" />
+  <meta property="og:url" content="<%= url %>" />
+  <meta property="og:image" content="<%= base %>/assets/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css?v=12" />
+</head>
+<body class="card-page">
+  <main class="wrap">
+    <header class="page-head">
+      <p class="eyebrow">Digital Business Card</p>
+      <span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span>
+    </header>
+
+    <!-- FLIP CARD -->
+    <div class="flip<%= (typeof flipped !== 'undefined' && flipped) ? ' flipped' : '' %>" id="flip" tabindex="0" role="button" aria-label="Tap to flip the card">
+      <div class="flip-inner">
+
+        <!-- FRONT: white info side -->
+        <section class="face front" aria-label="Card details">
+          <span class="front-fx" aria-hidden="true"></span>
+          <span class="front-hint" aria-hidden="true">Tap to flip back</span>
+          <div class="front-top">
+            <span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span>
+          </div>
+
+          <h1 class="emp-name"><%= card.full_name %></h1>
+          <% if (card.job_title) { %><p class="emp-title"><%= card.job_title %></p><% } %>
+
+          <div class="front-bottom">
+            <div class="front-contact">
+              <% if (card.phone) { %><p class="c-phone"><%= card.phone %></p><% } %>
+              <% if (card.email) { %><p><%= card.email %></p><% } %>
+              <% if (card.website) { %><p><%= card.website.replace(/^https?:\/\//,'') %></p><% } %>
+            </div>
+            <span class="qr-wrap">
+              <img src="<%= qr %>" alt="Scan to save contact" class="front-qr" />
+              <span class="qr-mark" aria-hidden="true"></span>
+            </span>
+          </div>
+        </section>
+
+        <!-- BACK: blue branded side, brand mark as the hero -->
+        <section class="face back" aria-label="<%= brand.name %> branding">
+          <img src="/assets/brand-mark.png" alt="" class="back-mark" />
+          <div class="back-top">
+            <span class="brand-logo light" role="img" aria-label="<%= brand.name %>"></span>
+            <p class="tagline">Building the future, together.</p>
+          </div>
+          <span class="flip-hint light">Tap to flip</span>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <nav class="actions" aria-label="Contact actions">
+      <% if (tel) { %>
+      <a class="action" href="tel:<%= tel %>">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.24 1z"/></svg></span>
+        <span class="lbl">Call</span>
+      </a>
+      <% } %>
+      <% if (whatsapp) { %>
+      <a class="action" href="<%= whatsapp %>" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.5.7.7-2.4-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-2-1.2 7.5 7.5 0 0 1-1.4-1.7c-.1-.2 0-.4.1-.5l.4-.4.2-.4a.5.5 0 0 0 0-.5l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c.6.3 1.1.4 1.5.6a3.6 3.6 0 0 0 1.6.1 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></span>
+        <span class="lbl">WhatsApp</span>
+      </a>
+      <% } %>
+      <% if (telegram) { %>
+      <a class="action" href="<%= telegram %>" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.9 4.3 18.7 19.4c-.24 1.06-.87 1.32-1.76.82l-4.86-3.58-2.35 2.26c-.26.26-.48.48-.98.48l.35-4.94 9-8.13c.39-.35-.09-.55-.6-.2L6.16 12.9l-4.79-1.5c-1.04-.32-1.06-1.04.22-1.54L20.55 2.6c.87-.32 1.63.2 1.35 1.7z"/></svg></span>
+        <span class="lbl">Telegram</span>
+      </a>
+      <% } %>
+      <% if (card.wechat) { %>
+      <button type="button" class="action" data-copy="<%= card.wechat %>" aria-label="Copy WeChat ID <%= card.wechat %>">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.7 3.5C4.7 3.5 1.5 6.2 1.5 9.6c0 1.9 1 3.6 2.7 4.7l-.6 2 2.3-1.2c.6.2 1.2.3 1.9.4a4.9 4.9 0 0 1-.2-1.4c0-3 2.9-5.3 6.4-5.3h.5c-.5-3-3.6-5.3-7.8-5.3zm-2.5 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm5 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/><path d="M22.5 14.2c0-2.7-2.6-4.9-5.9-4.9s-5.9 2.2-5.9 4.9 2.6 4.9 5.9 4.9c.7 0 1.4-.1 2-.3l1.9 1-.5-1.6c1.5-.9 2.5-2.3 2.5-4zm-7.8-1a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7zm3.8 0a.85.85 0 1 1 0 1.7.85.85 0 0 1 0-1.7z"/></svg></span>
+        <span class="lbl">WeChat</span>
+      </button>
+      <% } %>
+      <% if (card.email) { %>
+      <a class="action" href="mailto:<%= card.email %>">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v.4l8 5 8-5V6H4zm16 2.7-7.5 4.7a1 1 0 0 1-1 0L4 8.7V18h16V8.7z"/></svg></span>
+        <span class="lbl">Email</span>
+      </a>
+      <% } %>
+      <% if (card.linkedin_url) { %>
+      <a class="action" href="<%= card.linkedin_url %>" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 2.5 6 2.5 2.5 0 0 1 4.98 3.5zM3 8.5h4V21H3zM9 8.5h3.8v1.7h.05a4.2 4.2 0 0 1 3.8-2.1c4 0 4.75 2.6 4.75 6V21h-4v-5.4c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9V21H9z"/></svg></span>
+        <span class="lbl">LinkedIn</span>
+      </a>
+      <% } %>
+      <% if (website) { %>
+      <a class="action" href="<%= website %>" target="_blank" rel="noopener">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm6.9 6h-2.6a15.7 15.7 0 0 0-1.2-3.3A8 8 0 0 1 18.9 8zM12 4a14 14 0 0 1 1.7 4h-3.4A14 14 0 0 1 12 4zM4.3 14a7.8 7.8 0 0 1 0-4h3a17.8 17.8 0 0 0 0 4zm.8 2h2.6a15.7 15.7 0 0 0 1.2 3.3A8 8 0 0 1 5.1 16zm2.6-8H5.1a8 8 0 0 1 3.8-3.3A15.7 15.7 0 0 0 7.7 8zM12 20a14 14 0 0 1-1.7-4h3.4A14 14 0 0 1 12 20zm2.3-6H9.7a15.5 15.5 0 0 1 0-4h4.6a15.5 15.5 0 0 1 0 4zm.7 5.3a15.7 15.7 0 0 0 1.2-3.3h2.6a8 8 0 0 1-3.8 3.3zM16.7 14a17.8 17.8 0 0 0 0-4h3a7.8 7.8 0 0 1 0 4z"/></svg></span>
+        <span class="lbl">Website</span>
+      </a>
+      <% } %>
+      <button type="button" class="action" data-share-url="<%= url %>" data-share-title="<%= card.full_name %> — <%= brand.name %>" aria-label="Share this card">
+        <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 16.1a3 3 0 0 0-2.3 1.1l-6.1-3.5a3 3 0 0 0 0-1.4l6.1-3.5a3 3 0 1 0-.9-1.7L8.7 10.1a3 3 0 1 0 0 3.8l6.1 3.5A3 3 0 1 0 18 16.1z"/></svg></span>
+        <span class="lbl">Share</span>
+      </button>
+    </nav>
+
+    <% if (card.location) { %>
+    <p class="location">
+      <svg viewBox="0 0 24 24" aria-hidden="true" class="pin"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 14.5 9 2.5 2.5 0 0 1 12 11.5z"/></svg>
+      <%= card.location %>
+    </p>
+    <% } %>
+
+    <footer class="page-foot">© <%= new Date().getFullYear() %> <%= brand.name %></footer>
+  </main>
+
+  <script src="/card.js?v=2"></script>
+</body>
+</html>

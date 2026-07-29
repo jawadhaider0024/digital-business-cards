@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard · <%= brand.name %> E-Cards</title>
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin.css?v=2" />
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span><small>E-Cards</small>
+    </div>
+    <div class="topbar-right">
+      <span class="who">Signed in as <strong><%= adminUser %></strong></span>
+      <form method="post" action="/admin/logout"><button class="btn ghost">Log out</button></form>
+    </div>
+  </header>
+
+  <main class="container">
+    <% if (flash && flash.type === 'created') { %>
+      <div class="alert success share">
+        <div>
+          <strong>Card created!</strong> Share this link with the employee:
+          <a href="<%= base %>/<%= flash.slug %>" target="_blank"><%= base %>/<%= flash.slug %></a>
+        </div>
+        <button class="btn small copy" data-copy="<%= base %>/<%= flash.slug %>">Copy link</button>
+      </div>
+    <% } else if (flash && flash.type === 'updated') { %>
+      <div class="alert success">Card updated.</div>
+    <% } else if (flash && flash.type === 'deleted') { %>
+      <div class="alert success">Card deleted.</div>
+    <% } %>
+
+    <div class="page-head-row">
+      <div>
+        <h1>Employee E-Cards</h1>
+        <p class="muted"><%= cards.length %> card<%= cards.length === 1 ? '' : 's' %></p>
+      </div>
+      <a class="btn primary" href="/admin/cards/new">+ Create New Card</a>
+    </div>
+
+    <% if (cards.length === 0) { %>
+      <div class="empty">
+        <p>No e-cards yet.</p>
+        <a class="btn primary" href="/admin/cards/new">Create your first card</a>
+      </div>
+    <% } else { %>
+      <div class="card-list">
+        <% cards.forEach(function (c) { %>
+          <div class="row<%= c.is_active ? '' : ' inactive' %>">
+            <div class="row-main">
+              <div class="row-name"><%= c.full_name %><% if (!c.is_active) { %><span class="badge">Disabled</span><% } %></div>
+              <div class="row-title"><%= c.job_title || '—' %></div>
+              <a class="row-link" href="<%= base %>/<%= c.slug %>" target="_blank"><%= base.replace(/^https?:\/\//,'') %>/<%= c.slug %></a>
+            </div>
+            <div class="row-actions">
+              <button class="btn small copy" data-copy="<%= base %>/<%= c.slug %>">Copy</button>
+              <a class="btn small" href="<%= base %>/<%= c.slug %>" target="_blank">View</a>
+              <a class="btn small" href="/admin/cards/<%= c.id %>/edit">Edit</a>
+              <form method="post" action="/admin/cards/<%= c.id %>/toggle">
+                <button class="btn small"><%= c.is_active ? 'Disable' : 'Enable' %></button>
+              </form>
+              <form method="post" action="/admin/cards/<%= c.id %>/delete" class="js-delete" data-name="<%= c.full_name %>">
+                <button class="btn small danger">Delete</button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </main>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

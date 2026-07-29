@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Not found · <%= brand.name %></title>
+  <link rel="icon" href="/assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/admin.css?v=2" />
+</head>
+<body class="auth-page">
+  <main class="auth-card center">
+    <div class="auth-brand"><span class="brand-logo" role="img" aria-label="<%= brand.name %>"></span></div>
+    <h1 style="margin:18px 0 6px;font-size:1.4rem;">Card not found</h1>
+    <p class="muted">This e-card link doesn’t exist or has been disabled.</p>
+    <a class="btn primary" href="<%= brand.url %>" style="margin-top:16px;">Visit <%= brand.name %></a>
+  </main>
+</body>
+</html>
